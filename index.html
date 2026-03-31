@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>IBL — Shop Everything, Delivered Fast</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#131921;--navy2:#1f2937;--navy3:#232f3e;
+  --orange:#f0a500;--orange2:#ff9900;--gold:#f5c518;
+  --green:#007600;--green2:#067d62;--red:#b12704;--blue:#0066c0;
+  --bg:#eaeded;--white:#fff;--light:#f3f3f3;--light2:#f7f8f8;
+  --border:#ddd;--border2:#e3e6e6;--text:#0f1111;--muted:#565959;--muted2:#8d9494;
+  --r:8px;--r2:4px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;font-size:14px}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+img{max-width:100%;display:block} 
+
+#notifWrap{position:fixed;top:0;left:0;right:0;z-index:9998;pointer-events:none}
+.notif{background:var(--navy3);color:#fff;padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;pointer-events:all;border-bottom:2px solid var(--orange);font-size:.82rem;animation:nfIn .4s ease}
+@keyframes nfIn{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+
+#navTop{background:var(--navy);position:sticky;top:0;z-index:900}
+.nav1{display:flex;align-items:center;gap:.8rem;padding:.5rem 1rem;flex-wrap:wrap}
+.nav-logo{display:flex;align-items:center;gap:.3rem;cursor:pointer;flex-shrink:0}
+.nav-logo-txt{color:#fff;font-size:1.6rem;font-weight:900;line-height:1}
+.nav-logo-txt span{color:var(--orange)}
+.nav-loc{color:#fff;font-size:.72rem;display:flex;flex-direction:column;cursor:pointer;padding:.3rem .5rem;border-radius:4px;flex-shrink:0}
+.nav-loc:hover{outline:1px solid #fff}
+.nav-search-wrap{flex:1;display:flex;min-width:200px}
+.nav-search-wrap select{background:#f3f3f3;border:none;padding:.6rem .4rem;border-radius:var(--r2) 0 0 var(--r2);font-size:.72rem;max-width:110px;height:40px}
+.nav-search-wrap input{flex:1;padding:.5rem .8rem;border:none;font-size:.9rem;outline:none;height:40px}
+.nav-search-wrap button{background:var(--orange2);border:none;padding:0 1rem;border-radius:0 var(--r2) var(--r2) 0;font-size:1.1rem;height:40px}
+.nav-acts{display:flex;align-items:center;gap:.2rem;flex-shrink:0}
+.nact{color:#fff;font-size:.76rem;padding:.4rem .7rem;border-radius:4px;cursor:pointer;background:none;border:none;display:flex;flex-direction:column;align-items:center}
+.nact:hover{outline:1px solid #fff}
+.cart-wrap{position:relative}
+.cart-wrap .cart-cnt{position:absolute;top:2px;right:12px;background:var(--orange2);color:#fff;font-weight:900;font-size:.65rem;border-radius:50%;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center}
+.nav2{background:var(--navy3);display:flex;gap:0;align-items:center;padding:.2rem 1rem;overflow-x:auto}
+.nav2 a{color:#fff;font-size:.78rem;padding:.35rem .7rem;border-radius:3px;white-space:nowrap;cursor:pointer}
+.nav2 a:hover,.nav2 a.act{outline:1px solid #fff}
+
+.page{display:none}
+.page.active{display:block}
+#pgHome{display:block}
+
+.hero-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,#1a2332,#131921)}
+.hero-slide{display:none;padding:2.5rem 3rem;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;min-height:320px}
+.hero-slide.show{display:grid}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.15;margin-bottom:.8rem}
+.hero-h1 em{color:var(--gold);font-style:italic}
+.hero-sub{color:#bbb;font-size:.88rem;margin-bottom:1.5rem}
+.btn-hero{background:var(--orange2);color:#fff;padding:.75rem 1.8rem;border:none;border-radius:30px;font-weight:800}
+.btn-hero-ghost{background:transparent;color:#fff;padding:.75rem 1.8rem;border:1px solid rgba(255,255,255,.4);border-radius:30px;font-weight:700}
+.hero-dots{position:absolute;bottom:.8rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer}
+.hero-dot.on{background:var(--orange)}
+.hero-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer}
+#heroLeft{left:.8rem}
+#heroRight{right:.8rem}
+
+.flash-bar{background:linear-gradient(90deg,#b12704,#e44e2a);color:#fff;padding:.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.flash-bar .fl-timer{font-size:1.05rem;font-family:monospace;font-weight:900;color:var(--gold)}
+
+.section{padding:1.2rem 1.5rem}
+.section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.section-hd h2{font-size:1.25rem;font-weight:800}
+.see-all{color:var(--blue);font-size:.82rem;cursor:pointer}
+
+.cat-scroll{display:flex;gap:.7rem;overflow-x:auto;padding-bottom:.5rem}
+.cat-pill{background:var(--white);border:1px solid var(--border);border-radius:30px;padding:.4rem .9rem;font-size:.78rem;font-weight:600;white-space:nowrap;cursor:pointer}
+.cat-pill.active{background:var(--navy);color:#fff}
+
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:1rem}
+.pcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all .25s}
+.pcard:hover{box-shadow:0 6px 20px rgba(0,0,0,.15);transform:translateY(-2px)}
+.pcard-img{height:185px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:#f9f9f9;position:relative}
+.pbadge{position:absolute;top:6px;left:6px;font-size:.58rem;font-weight:800;padding:.18rem .45rem;border-radius:3px;background:#cc0000;color:#fff}
+.pcard-body{padding:.75rem}
+.pcard-name{font-weight:700;font-size:.82rem;margin-bottom:.3rem}
+.pcard-price{font-size:1.05rem;font-weight:800;color:var(--red)}
+.pcard-orig{font-size:.72rem;color:var(--muted);text-decoration:line-through;margin-left:.3rem}
+.pcard-add{width:100%;background:var(--orange2);border:none;border-radius:var(--r2);padding:.45rem;font-weight:800;font-size:.75rem;margin-top:.5rem}
+
+.detail-layout{max-width:1150px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:400px 1fr;gap:2rem}
+.detail-img{background:var(--white);border-radius:var(--r);padding:2rem;text-align:center;font-size:8rem}
+.detail-info h1{font-size:1.5rem;margin-bottom:.5rem}
+.detail-price{font-size:2rem;font-weight:900;color:var(--red);margin:1rem 0}
+.qty-selector{display:flex;align-items:center;gap:1rem;margin:1rem 0}
+.qty-btn{width:32px;height:32px;background:var(--light);border:1px solid var(--border);border-radius:6px;font-size:1.2rem;cursor:pointer}
+.btn-add-cart{background:var(--orange2);border:none;border-radius:30px;padding:.8rem 2rem;font-weight:800;margin-right:1rem}
+.btn-buy-now{background:var(--gold);border:none;border-radius:30px;padding:.8rem 2rem;font-weight:800}
+
+.cart-body{max-width:1150px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:1fr 320px;gap:1.5rem}
+.cart-items{background:var(--white);border-radius:var(--r);padding:1.2rem}
+.cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}
+.cart-item-img{font-size:3rem;width:70px;height:70px;background:var(--light);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.cart-summary{background:var(--white);border-radius:var(--r);padding:1.2rem;position:sticky;top:80px}
+.btn-checkout{width:100%;background:var(--orange2);border:none;border-radius:30px;padding:.85rem;font-weight:800;margin-top:1rem}
+
+.checkout-body{max-width:960px;margin:0 auto;padding:1.5rem}
+.checkout-form{background:var(--white);border-radius:var(--r);padding:1.5rem}
+.form-group{margin-bottom:1rem}
+.form-group input,.form-group select{width:100%;padding:.7rem;border:1px solid var(--border);border-radius:6px}
+.payment-method{border:2px solid var(--border);border-radius:var(--r);padding:.8rem;margin-bottom:.5rem;cursor:pointer}
+.payment-method.selected{border-color:var(--orange2);background:#fff8ee}
+
+.order-success{background:var(--green);color:#fff;border-radius:var(--r);padding:1.5rem;text-align:center;margin-bottom:1rem}
+.tracking-steps{display:flex;justify-content:space-between;margin:1.5rem 0}
+.track-step{text-align:center;flex:1}
+.track-step .step-dot{width:40px;height:40px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;margin:0 auto .5rem}
+.track-step.completed .step-dot{background:var(--green);color:#fff}
+.track-step.active .step-dot{background:var(--orange2);color:#fff}
+
+.return-window{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:var(--r);padding:1rem;margin:1rem 0;display:flex;gap:.7rem}
+.profit-banner{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:var(--r);padding:1rem;text-align:center;color:#fff;margin:1rem 0}
+.profit-banner .big-text{font-size:1.8rem;font-weight:900;color:var(--gold)}
+
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:#fff;padding:.7rem 1.3rem;border-radius:var(--r);z-index:9999;opacity:0;transition:opacity .3s;border-left:3px solid var(--orange2)}
+#toast.show{opacity:1}
+
+@media(max-width:900px){
+  .detail-layout{grid-template-columns:1fr}
+  .cart-body{grid-template-columns:1fr}
+  .hero-slide{grid-template-columns:1fr}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div id="notifWrap"></div>
+<div id="toast"></div>
+
+<div id="navTop">
+  <div class="nav1">
+    <div class="nav-logo" onclick="showPage('pgHome')">
+      <div class="nav-logo-txt">IBL<span>.</span></div>
+    </div>
+    <div class="nav-loc" onclick="showToast('📍 Delivering worldwide!')">
+      <span class="loc-label">Deliver to</span>
+      <span class="loc-val">🌍 Worldwide</span>
+    </div>
+    <div class="nav-search-wrap">
+      <select id="navSearchCat"><option value="">All</option><option value="women">Women</option><option value="men">Men</option><option value="electronics">Electronics</option><option value="beauty">Beauty</option></select>
+      <input type="text" id="navSearchInput" placeholder="Search IBL…" onkeydown="if(event.key==='Enter')doSearch()"/>
+      <button onclick="doSearch()">🔍</button>
+    </div>
+    <div class="nav-acts">
+      <button class="nact" onclick="showPage('pgAccount')"><span class="nact-top">Hello, Sign in</span><span class="nact-bot">Account</span></button>
+      <button class="nact" onclick="showPage('pgOrders')"><span class="nact-top">Returns &</span><span class="nact-bot">Orders</span></button>
+      <button class="nact" onclick="openSellerModal()"><span class="nact-top">Sell on</span><span class="nact-bot">IBL</span></button>
+      <button class="nact" onclick="openAdminPanel()"><span class="nact-top">CEO</span><span class="nact-bot">👑 Admin</span></button>
+      <div class="cart-wrap">
+        <button class="nact" onclick="showPage('pgCart')">
+          <span style="font-size:1.6rem">🛒</span>
+          <div class="cart-cnt" id="cartCnt">0</div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <nav class="nav2">
+    <a onclick="filterCategory('all')">All</a>
+    <a onclick="filterCategory('women')">👗 Women</a>
+    <a onclick="filterCategory('men')">👔 Men</a>
+    <a onclick="filterCategory('electronics')">📱 Electronics</a>
+    <a onclick="filterCategory('beauty')">💄 Beauty</a>
+    <a onclick="filterCategory('sports')">⚽ Sports</a>
+  </nav>
+</div>
+
+<!-- HOME PAGE -->
+<div id="pgHome" class="page active">
+  <div class="hero-wrap">
+    <div class="hero-slide show" id="hs0">
+      <div>
+        <div class="hero-badge">🌍 Global Marketplace</div>
+        <h1 class="hero-h1">Everything You <em>Love,</em><br>Delivered to <em>Your Door</em></h1>
+        <p class="hero-sub">Millions of products at unbeatable prices. <strong>Sellers keep 100% of profits!</strong> Free shipping on orders over $50.</p>
+        <div class="hero-btns">
+          <button class="btn-hero" onclick="document.getElementById('homeShop').scrollIntoView({behavior:'smooth'})">Shop Now →</button>
+          <button class="btn-hero-ghost" onclick="openSellerModal()">Start Selling →</button>
+        </div>
+      </div>
+      <div style="font-size:5rem;text-align:center">🛍️✨</div>
+    </div>
+    <button class="hero-arr" id="heroLeft" onclick="heroNav(-1)">‹</button>
+    <button class="hero-arr" id="heroRight" onclick="heroNav(1)">›</button>
+    <div class="hero-dots" id="heroDots"></div>
+  </div>
+
+  <div class="flash-bar">
+    <div class="fl-left"><span>⚡ FLASH SALE</span><span>—</span><span id="flashTimer" class="fl-timer">02:00:00</span></div>
+    <button class="fl-cta" style="background:var(--gold);border:none;padding:.3rem .9rem;font-weight:800" onclick="showPage('pgDeals')">View All Deals →</button>
+  </div>
+
+  <!-- Seller Profit Banner - 100% to seller -->
+  <div class="profit-banner" style="margin: 0 1.5rem;">
+    <span>💰 SELLERS KEEP <span class="big-text">100%</span> OF EVERY SALE! 💰</span>
+    <div style="font-size:.75rem; margin-top:.3rem;">No commission fees. Only $35/month after 3-month free trial for sellers</div>
+  </div>
+
+  <div class="section" id="homeShop">
+    <div class="cat-scroll" id="homeCatScroll"></div>
+    <div class="section-hd"><h2 id="homeSectionTitle">🛍️ All Products</h2><span class="see-all" onclick="showAllProducts()">See all →</span></div>
+    <div class="pgrid" id="homeGrid"></div>
+  </div>
+</div>
+
+<!-- CART PAGE -->
+<div id="pgCart" class="page"><div class="cart-body"><div class="cart-items" id="cartItemsList"></div><div class="cart-summary" id="cartSummary"></div></div></div>
+
+<!-- CHECKOUT PAGE -->
+<div id="pgCheckout" class="page"><div class="checkout-body" id="checkoutContainer"></div></div>
+
+<!-- ORDER CONFIRMATION / TRACKING -->
+<div id="pgOrderTracking" class="page"><div id="trackingContainer"></div></div>
+
+<!-- ORDERS PAGE -->
+<div id="pgOrders" class="page"><div class="section"><h2>My Orders</h2><div id="ordersList"></div></div></div>
+
+<!-- ACCOUNT PAGE -->
+<div id="pgAccount" class="page"><div class="section"><h2>My Account</h2><div id="accountInfo"></div></div></div>
+
+<!-- DEALS PAGE -->
+<div id="pgDeals" class="page"><div class="section"><h2>🔥 Today's Deals</h2><div class="pgrid" id="dealsGrid"></div></div></div>
+
+<!-- SELLER MODAL (Popup) -->
+<div id="sellerModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
+  <div style="background:white; max-width:500px; width:90%; border-radius:16px; padding:1.5rem;">
+    <div style="display:flex; justify-content:space-between;"><h2>Sell on IBL</h2><button onclick="closeSellerModal()" style="background:none; border:none; font-size:1.5rem;">✖</button></div>
+    <div class="profit-banner" style="background:#0f172a; margin:1rem 0;"><span class="big-text">100% Profit for Sellers!</span><div>No commission on sales</div></div>
+    <div style="background:#f0fdf4; border-radius:12px; padding:1rem; margin:1rem 0;">
+      <strong>🎉 3 Months Free Trial</strong><br>
+      Start selling today with zero cost for 3 months. After trial: <strong>$35/month</strong>
+    </div>
+    <div class="form-group"><input type="text" id="sellerName" placeholder="Store Name"></div>
+    <div class="form-group"><input type="email" id="sellerEmail" placeholder="Email"></div>
+    <div class="form-group"><input type="text" id="sellerPhone" placeholder="Phone"></div>
+    <div class="form-group"><textarea id="sellerProduct" placeholder="What will you sell?" rows="2"></textarea></div>
+    <button class="btn-checkout" onclick="registerSeller()">Start 3-Month Free Trial →</button>
+    <p style="font-size:.7rem; color:gray; margin-top:1rem;">CEO can approve free sellers manually. After 3 months: $35/month subscription.</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:10000; align-items:center; justify-content:center;">
+  <div style="background:white; max-width:550px; width:90%; border-radius:16px; padding:1.5rem;">
+    <div style="display:flex; justify-content:space-between;"><h2>👑 CEO Admin Panel</h2><button onclick="closeAdminPanel()" style="background:none; border:none; font-size:1.5rem;">✖</button></div>
+    <p style="color:var(--green); font-weight:800;">Sellers keep 100% profit. CEO earns $35/month subscription after free trial.</p>
+    <h3 style="margin-top:1rem;">Seller Applications (Free Trial Requests)</h3>
+    <div id="sellerRequestsList" style="max-height:300px; overflow-y:auto;"></div>
+    <div class="profit-banner" style="margin-top:1rem; background:#1e293b;">
+      <div>💰 CEO Revenue Model: $35/month per active seller (after 3-month free trial)</div>
+      <div style="font-size:.8rem;">Active sellers: <span id="activeSellerCount">0</span> | Monthly recurring: $<span id="monthlyRevenue">0</span></div>
+    </div>
+    <button onclick="closeAdminPanel()" class="btn-hero" style="margin-top:1rem; width:100%;">Close</button>
+  </div>
+</div>
+
+<script>
+// PRODUCT DATABASE
+const products = [
+  { id: 1, name: "Floral Summer Dress", category: "women", price: 39.99, originalPrice: 79.99, image: "👗", badge: "SALE", rating: 4.5, stock: 45 },
+  { id: 2, name: "Leather Sneakers", category: "men", price: 59.99, originalPrice: 99.99, image: "👟", badge: "HOT", rating: 4.7, stock: 32 },
+  { id: 3, name: "Wireless Headphones", category: "electronics", price: 89.99, originalPrice: 149.99, image: "🎧", badge: "DEAL", rating: 4.8, stock: 18 },
+  { id: 4, name: "Silk Skincare Set", category: "beauty", price: 45.99, originalPrice: 69.99, image: "💄", badge: "NEW", rating: 4.6, stock: 27 },
+  { id: 5, name: "Yoga Mat Premium", category: "sports", price: 29.99, originalPrice: 49.99, image: "🧘", badge: "", rating: 4.4, stock: 50 },
+  { id: 6, name: "Smart Watch Pro", category: "electronics", price: 129.99, originalPrice: 199.99, image: "⌚", badge: "BEST", rating: 4.9, stock: 12 },
+  { id: 7, name: "Denim Jacket", category: "men", price: 69.99, originalPrice: 119.99, image: "🧥", badge: "SALE", rating: 4.5, stock: 23 },
+  { id: 8, name: "Heeled Boots", category: "women", price: 79.99, originalPrice: 129.99, image: "👢", badge: "", rating: 4.6, stock: 15 }
+];
+
+let cart = JSON.parse(localStorage.getItem("ibl_cart")) || [];
+let orders = JSON.parse(localStorage.getItem("ibl_orders")) || [];
+let sellers = JSON.parse(localStorage.getItem("ibl_sellers")) || [];
+let currentFilter = "all";
+let currentSearch = "";
+
+function showToast(msg) { const t = document.getElementById("toast"); t.innerText = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2000); }
+function updateCartCount() { document.getElementById("cartCnt").innerText = cart.reduce((s,i)=>s+i.qty,0); localStorage.setItem("ibl_cart", JSON.stringify(cart)); }
+
+function addToCart(productId, qty = 1) {
+  const p = products.find(pr => pr.id === productId);
+  if (!p) return;
+  const existing = cart.find(i => i.id === productId);
+  if (existing) existing.qty += qty;
+  else cart.push({ ...p, qty });
+  updateCartCount();
+  showToast(`🛒 ${p.name} added to cart!`);
+  renderCartPage();
+}
+
+function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartCount(); renderCartPage(); }
+function updateCartQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (item) { item.qty += delta; if (item.qty <= 0) removeFromCart(id); else { updateCartCount(); renderCartPage(); } }
+}
+
+function renderProducts() {
+  let filtered = products.filter(p => currentFilter === "all" || p.category === currentFilter);
+  if (currentSearch) filtered = filtered.filter(p => p.name.toLowerCase().includes(currentSearch.toLowerCase()));
+  const grid = document.getElementById("homeGrid");
+  if (!grid) return;
+  grid.innerHTML = filtered.map(p => `
+    <div class="pcard" onclick="showProductDetail(${p.id})">
+      <div class="pcard-img">${p.image}${p.badge ? `<span class="pbadge">${p.badge}</span>` : ''}</div>
+      <div class="pcard-body">
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-price">$${p.price}<span class="pcard-orig">$${p.originalPrice}</span></div>
+        <button class="pcard-add" onclick="event.stopPropagation(); addToCart(${p.id})">Add to Cart</button>
+      </div>
+    </div>
+  `).join("");
+  document.getElementById("homeSectionTitle").innerHTML = currentSearch ? `🔍 "${currentSearch}"` : (currentFilter === "all" ? "🛍️ All Products" : `✨ ${currentFilter.toUpperCase()}`);
+}
+
+function showProductDetail(id) {
+  const p = products.find(pr => pr.id === id);
+  if (!p) return;
+  const detailHtml = `
+    <div class="section">
+      <button onclick="showPage('pgHome')" style="margin-bottom:1rem; background:var(--navy); color:#fff; padding:.5rem 1rem; border:none; border-radius:6px;">← Back to Shop</button>
+      <div class="detail-layout">
+        <div class="detail-img" style="font-size:8rem; text-align:center;">${p.image}</div>
+        <div class="detail-info">
+          <h1>${p.name}</h1>
+          <div>⭐ ${p.rating} · In Stock (${p.stock} left)</div>
+          <div class="detail-price">$${p.price} <span style="font-size:1rem; text-decoration:line-through; color:gray;">$${p.originalPrice}</span></div>
+          <p>Free shipping on orders over $50. 7-day easy returns.</p>
+          <div class="qty-selector">
+            <button class="qty-btn" onclick="let q=document.getElementById('detQty'); q.innerText=Math.max(1,parseInt(q.innerText)-1);">-</button>
+            <span id="detQty" style="font-size:1.2rem; font-weight:800; width:40px; text-align:center;">1</span>
+            <button class="qty-btn" onclick="let q=document.getElementById('detQty'); q.innerText=parseInt(q.innerText)+1;">+</button>
+          </div>
+          <div>
+            <button class="btn-add-cart" onclick="addToCart(${p.id}, parseInt(document.getElementById('detQty').innerText)); showToast('Added to cart!');">Add to Cart</button>
+            <button class="btn-buy-now" onclick="addToCart(${p.id}, parseInt(document.getElementById('detQty').innerText)); showPage('pgCart');">Buy Now</button>
+          </div>
+          <div class="return-window" style="margin-top:1rem;">🔄 7-Day Easy Returns — Free pickup & full refund</div>
+        </div>
+      </div>
+    </div>
+  `;
+  const detailDiv = document.createElement('div'); detailDiv.id = 'tempDetail'; detailDiv.innerHTML = detailHtml;
+  const pgHome = document.getElementById('pgHome');
+  const old = document.getElementById('tempDetail');
+  if(old) old.remove();
+  pgHome.parentNode.insertBefore(detailDiv, pgHome.nextSibling);
+  showPage('tempDetail');
+}
+
+function renderCartPage() {
+  const container = document.getElementById("cartItemsList");
+  const summary = document.getElementById("cartSummary");
+  if (!container) return;
+  if (cart.length === 0) { container.innerHTML = `<div style="text-align:center; padding:2rem;"><h3>Your cart is empty</h3><button class="btn-hero" onclick="showPage('pgHome')">Continue Shopping</button></div>`; summary.innerHTML = ""; return; }
+  let subtotal = 0;
+  container.innerHTML = `<h2>Shopping Cart (${cart.reduce((s,i)=>s+i.qty,0)} items)</h2>` + cart.map(item => {
+    subtotal += item.price * item.qty;
+    return `<div class="cart-item"><div class="cart-item-img">${item.image}</div><div><div class="cart-item-name">${item.name}</div><div>$${item.price}</div><div style="display:flex; gap:.5rem; margin-top:.5rem;"><button onclick="updateCartQty(${item.id}, -1)">-</button><span>${item.qty}</span><button onclick="updateCartQty(${item.id}, 1)">+</button><button style="color:red;" onclick="removeFromCart(${item.id})">Remove</button></div></div><div style="font-weight:800; margin-left:auto;">$${(item.price * item.qty).toFixed(2)}</div></div>`;
+  }).join("");
+  const shipping = subtotal > 50 ? 0 : 5.99;
+  const total = subtotal + shipping;
+  summary.innerHTML = `<h3>Order Summary</h3><div>Subtotal: $${subtotal.toFixed(2)}</div><div>Shipping: ${shipping === 0 ? "FREE" : "$"+shipping}</div><hr><div style="font-weight:800; font-size:1.2rem;">Total: $${total.toFixed(2)}</div><button class="btn-checkout" onclick="goToCheckout()">Proceed to Checkout</button>`;
+}
+
+function goToCheckout() {
+  if (cart.length === 0) { showToast("Cart is empty!"); return; }
+  renderCheckoutPage();
+  showPage('pgCheckout');
+}
+
+function renderCheckoutPage() {
+  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const shipping = subtotal > 50 ? 0 : 5.99;
+  const total = subtotal + shipping;
+  const container = document.getElementById("checkoutContainer");
+  container.innerHTML = `
+    <div class="checkout-form">
+      <h2>Checkout</h2>
+      <div class="form-group"><label>Full Name</label><input type="text" id="fullName" placeholder="John Doe"></div>
+      <div class="form-group"><label>Address</label><input type="text" id="address" placeholder="123 Main St"></div>
+      <div class="form-group"><label>City</label><input type="text" id="city" placeholder="New York"></div>
+      <div class="form-group"><label>Zip Code</label><input type="text" id="zip" placeholder="10001"></div>
+      <h3>Payment Method</h3>
+      <div class="payment-method" onclick="selectPayment('card')" id="payCard"><input type="radio" name="payment" value="card"> 💳 Credit/Debit Card</div>
+      <div class="payment-method" onclick="selectPayment('paypal')" id="payPaypal"><input type="radio" name="payment" value="paypal"> 🅿️ PayPal</div>
+      <div class="form-group" id="cardDetails" style="display:none;"><label>Card Number</label><input type="text" placeholder="4242 4242 4242 4242"></div>
+      <div class="order-summary" style="background:var(--light); padding:1rem; border-radius:8px; margin:1rem 0;"><h3>Order Summary</h3><div>Subtotal: $${subtotal.toFixed(2)}</div><div>Shipping: ${shipping === 0 ? "FREE" : "$"+shipping}</div><div style="font-weight:800;">Total: $${total.toFixed(2)}</div></div>
+      <button class="btn-checkout" onclick="placeOrder()">Place Order →</button>
+    </div>
+  `;
+}
+
+let selectedPayment = 'card';
+function selectPayment(method) { selectedPayment = method; document.getElementById('cardDetails').style.display = method === 'card' ? 'block' : 'none'; }
+
+function placeOrder() {
+  const name = document.getElementById("fullName")?.value || "Guest";
+  const address = document.getElementById("address")?.value || "No address";
+  if (!name) { showToast("Please enter your name"); return; }
+  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const shipping = subtotal > 50 ? 0 : 5.99;
+  const total = subtotal + shipping;
+  const orderId = "ORD" + Date.now();
+  const newOrder = {
+    id: orderId, date: new Date().toLocaleDateString(), items: [...cart], subtotal, shipping, total, status: "Processing", tracking: "Preparing to ship", address, name, paymentMethod: selectedPayment,
+    orderDate: new Date().toISOString(), estimatedDelivery: new Date(Date.now() + 7*24*60*60*1000).toLocaleDateString()
+  };
+  orders.unshift(newOrder);
+  localStorage.setItem("ibl_orders", JSON.stringify(orders));
+  cart = [];
+  updateCartCount();
+  showToast("✅ Order placed successfully!");
+  showOrderTracking(orderId);
+}
+
+function showOrderTracking(orderId) {
+  const order = orders.find(o => o.id === orderId);
+  if (!order) return;
+  const container = document.getElementById("trackingContainer");
+  const steps = [
+    { name: "Order Placed", completed: true, date: order.orderDate },
+    { name: "Processing", completed: order.status !== "Processing" ? true : false },
+    { name: "Shipped", completed: order.status === "Delivered" || order.status === "Out for Delivery" ? true : false },
+    { name: "Out for Delivery", completed: order.status === "Delivered" ? true : false },
+    { name: "Delivered", completed: order.status === "Delivered" ? true : false }
+  ];
+  container.innerHTML = `
+    <div class="section">
+      <button onclick="showPage('pgOrders')" style="margin-bottom:1rem; background:var(--navy); color:#fff; padding:.5rem 1rem; border:none; border-radius:6px;">← Back to Orders</button>
+      <div class="order-success"><h2>🎉 Order Confirmed!</h2><p>Order #${order.id}</p><p>Estimated Delivery: ${order.estimatedDelivery}</p></div>
+      <div class="tracking-steps">
+        ${steps.map((s, i) => `<div class="track-step ${s.completed ? 'completed' : ''}"><div class="step-dot">${s.completed ? '✓' : i+1}</div><div>${s.name}</div><small>${s.date || ''}</small></div>`).join('')}
+      </div>
+      <div class="return-window"><span>🔄</span><div><strong>7-Day Easy Returns</strong><br>You can return this order within 7 days of delivery for a full refund.</div></div>
+    </div>
+  `;
+  showPage('pgOrderTracking');
+}
+
+function renderOrdersPage() {
+  const container = document.getElementById("ordersList");
+  if (!container) return;
+  if (orders.length === 0) { container.innerHTML = "<p>No orders yet. Start shopping!</p>"; return; }
+  container.innerHTML = orders.map(order => `
+    <div style="background:white; border-radius:12px; padding:1rem; margin-bottom:1rem; border:1px solid #ddd;">
+      <div style="display:flex; justify-content:space-between;"><strong>Order #${order.id}</strong><span>${order.date}</span><span style="background:var(--orange); padding:.2rem .8rem; border-radius:20px;">${order.status}</span></div>
+      <div>${order.items.map(i => `${i.image} ${i.name} x${i.qty}`).join(', ')}</div>
+      <div>Total: $${order.total.toFixed(2)}</div>
+      <button onclick="showOrderTracking('${order.id}')" style="background:var(--blue); color:#fff; border:none; padding:.3rem 1rem; border-radius:6px; margin-top:.5rem;">Track Order</button>
+    </div>
+  `).join("");
+}
+
+function openSellerModal() { document.getElementById("sellerModal").style.display = "flex"; }
+function closeSellerModal() { document.getElementById("sellerModal").style.display = "none"; }
+function registerSeller() {
+  const name = document.getElementById("sellerName").value;
+  const email = document.getElementById("sellerEmail").value;
+  const phone = document.getElementById("sellerPhone").value;
+  const product = document.getElementById("sellerProduct").value;
+  if (!name || !email) { showToast("Please enter store name and email"); return; }
+  const newSeller = { name, email, phone, product, status: "pending_approval", trialStart: new Date().toISOString(), registeredAt: new Date().toISOString() };
+  sellers.push(newSeller);
+  localStorage.setItem("ibl_sellers", JSON.stringify(sellers));
+  showToast("Application sent to CEO! You'll get 3 months free trial once approved.");
+  closeSellerModal();
+  document.getElementById("sellerName").value = "";
+  document.getElementById("sellerEmail").value = "";
+  document.getElementById("sellerPhone").value = "";
+  document.getElementById("sellerProduct").value = "";
+}
+
+function openAdminPanel() {
+  renderSellerRequests();
+  document.getElementById("adminPanel").style.display = "flex";
+}
+function closeAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
+function renderSellerRequests() {
+  const pending = sellers.filter(s => s.status === "pending_approval");
+  const active = sellers.filter(s => s.status === "active" || s.status === "trial");
+  const activeCount = active.length;
+  const monthlyRevenue = activeCount * 35;
+  document.getElementById("activeSellerCount").innerText = activeCount;
+  document.getElementById("monthlyRevenue").innerText = monthlyRevenue;
+  const container = document.getElementById("sellerRequestsList");
+  if (pending.length === 0) { container.innerHTML = "<p>No pending seller requests</p>"; return; }
+  container.innerHTML = pending.map((s, idx) => `
+    <div style="border:1px solid #ddd; padding:.8rem; margin-bottom:.5rem; border-radius:8px;">
+      <strong>${s.name}</strong> (${s.email})<br>
+      Selling: ${s.product || "Not specified"}<br>
+      <button onclick="approveSeller(${idx})" style="background:var(--green); color:#fff; border:none; padding:.3rem .8rem; border-radius:6px; margin-top:.3rem;">Approve (3 Months Free)</button>
+      <button onclick="rejectSeller(${idx})" style="background:gray; color:#fff; border:none; padding:.3rem .8rem; border-radius:6px;">Reject</button>
+    </div>
+  `).join("");
+}
+function approveSeller(idx) {
+  sellers[idx].status = "trial";
+  sellers[idx].trialStart = new Date().toISOString();
+  sellers[idx].trialEnds = new Date(Date.now() + 90*24*60*60*1000).toISOString();
+  localStorage.setItem("ibl_sellers", JSON.stringify(sellers));
+  showToast(`✅ ${sellers[idx].name} approved! 3 months free trial started.`);
+  renderSellerRequests();
+}
+function rejectSeller(idx) {
+  sellers[idx].status = "rejected";
+  localStorage.setItem("ibl_sellers", JSON.stringify(sellers));
+  showToast(`❌ Seller application rejected.`);
+  renderSellerRequests();
+}
+
+function filterCategory(cat) { currentFilter = cat; currentSearch = ""; document.getElementById("navSearchInput").value = ""; renderProducts(); showPage('pgHome'); }
+function doSearch() { currentSearch = document.getElementById("navSearchInput").value; currentFilter = "all"; renderProducts(); showPage('pgHome'); }
+function showAllProducts() { currentFilter = "all"; currentSearch = ""; renderProducts(); showPage('pgHome'); }
+
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  if (pageId === 'tempDetail') document.getElementById('tempDetail').classList.add('active');
+  else document.getElementById(pageId).classList.add('active');
+  if (pageId === 'pgCart') renderCartPage();
+  if (pageId === 'pgOrders') renderOrdersPage();
+  if (pageId === 'pgHome') renderProducts();
+  if (pageId === 'pgDeals') { document.getElementById("dealsGrid").innerHTML = products.filter(p=>p.badge).map(p=>`<div class="pcard" onclick="showProductDetail(${p.id})"><div class="pcard-img">${p.image}<span class="pbadge">${p.badge}</span></div><div class="pcard-body"><div>${p.name}</div><div class="pcard-price">$${p.price}</div></div></div>`).join(""); showPage('pgDeals'); }
+}
+
+let heroIdx = 0, slides = ["hs0","hs1","hs2","hs3"];
+function heroNav(dir) { heroIdx = (heroIdx + dir + slides.length) % slides.length; slides.forEach((s,i)=> document.getElementById(s).classList.toggle("show", i===heroIdx)); document.querySelectorAll(".hero-dot").forEach((d,i)=> d.classList.toggle("on", i===heroIdx)); }
+function initHeroDots() { const dotsDiv = document.getElementById("heroDots"); dotsDiv.innerHTML = slides.map((_,i)=> `<div class="hero-dot ${i===0?'on':''}" onclick="heroIdx=${i};heroNav(0)"></div>`).join(""); }
+let flashTime = 2*3600; setInterval(()=>{ if(flashTime>0) flashTime--; const h=Math.floor(flashTime/3600), m=Math.floor((flashTime%3600)/60), s=flashTime%60; document.getElementById("flashTimer").innerText=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; },1000);
+
+initHeroDots(); renderProducts(); updateCartCount(); renderOrdersPage();
+window.showPage = showPage; window.addToCart = addToCart; window.updateCartQty = updateCartQty; window.removeFromCart = removeFromCart; window.showProductDetail = showProductDetail; window.goToCheckout = goToCheckout; window.placeOrder = placeOrder; window.selectPayment = selectPayment; window.showOrderTracking = showOrderTracking; window.filterCategory = filterCategory; window.doSearch = doSearch; window.showAllProducts = showAllProducts; window.heroNav = heroNav; window.openSellerModal = openSellerModal; window.closeSellerModal = closeSellerModal; window.registerSeller = registerSeller; window.openAdminPanel = openAdminPanel; window.closeAdminPanel = closeAdminPanel; window.approveSeller = approveSeller; window.rejectSeller = rejectSeller;
+</script>
+</body>
+</html>
