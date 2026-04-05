@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>IBL SHOP - Unlimited Products | WhatsApp Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            padding-bottom: 70px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .header-icons span {
+            font-size: 22px;
+            margin-left: 12px;
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 15px;
+            border-radius: 25px;
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .hero button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        /* Search */
+        .search-bar {
+            padding: 10px 15px;
+            background: white;
+            margin: 0 15px 15px 15px;
+            border-radius: 50px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 12px 0;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* Flash Deals */
+        .flash-deals {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            margin: 15px;
+            padding: 15px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .flash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .countdown {
+            background: rgba(0,0,0,0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Gamification Card */
+        .gamification-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .gamification-card:active {
+            transform: scale(0.98);
+        }
+
+        .wheel-icon {
+            font-size: 55px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Sections */
+        .section {
+            margin: 20px 15px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .product-card:active {
+            transform: scale(0.97);
+        }
+
+        .product-emoji {
+            font-size: 50px;
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #ee5a24;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
+        .add-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 20px;
+            margin-top: 8px;
+            width: 100%;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 12px;
+            padding: 0 15px 15px 15px;
+            overflow-x: auto;
+        }
+
+        .category {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Filters */
+        .filters-bar {
+            background: white;
+            padding: 12px;
+            margin: 15px;
+            border-radius: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filters-bar select, .filters-bar input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        /* Dashboard */
+        .dashboard-container {
+            padding: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card h2, .card h3 {
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .product-item button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Forms */
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        form button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            width: 350px;
+        }
+
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn, .checkout-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+
+        .bottom-nav div {
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: none;
+            z-index: 1000;
+            font-size: 14px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== HEADER ==================== -->
+<div class="header">
+    <div class="logo"><span>🛍️</span> IBL SHOP</div>
+    <div class="nav-links">
+        <a href="#" class="active" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('shop')">Shop</a>
+        <a href="#" onclick="showPage('seller')">Seller</a>
+        <a href="#" onclick="showPage('ceo')">CEO</a>
+    </div>
+    <div class="header-icons">
+        <span onclick="openCart()">🛒 <span id="cartCount">0</span></span>
+        <span onclick="openProfile()">👤</span>
+    </div>
+</div>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="homePage">
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Welcome to IBL Shop</h1>
+        <p>Unlimited Products • WhatsApp Payment</p>
+        <button onclick="showPage('shop')">Shop Now →</button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search unlimited products..." onkeyup="searchProducts()">
+        <button onclick="searchProducts()">🔍</button>
+    </div>
+
+    <!-- Flash Deals -->
+    <div class="flash-deals">
+        <div class="flash-header">
+            <h2>⚡ FLASH DEALS</h2>
+            <div class="countdown" id="countdown">23:59:59</div>
+        </div>
+        <div id="flashProducts" class="products-grid"></div>
+    </div>
+
+    <!-- Gamification -->
+    <div class="gamification-card" onclick="openSpinWheel()">
+        <div>
+            <h3>🎡 SPIN TO WIN!</h3>
+            <p>Free gifts • Coupons • Rewards</p>
+        </div>
+        <div class="wheel-icon">🎁</div>
+    </div>
+
+    <!-- AI Recommendations -->
+    <div class="section">
+        <div class="section-header">
+            <h2>🤖 Recommended For You</h2>
+            <a href="#" onclick="loadAIRecommendations()">Refresh</a>
+        </div>
+        <div id="recommended" class="products-grid"></div>
+    </div>
+
+    <!-- Categories -->
+    <div class="categories">
+        <div class="category" onclick="filterByCategory('Electronics')">📱 Electronics</div>
+        <div class="category" onclick="filterByCategory('Fashion')">👕 Fashion</div>
+        <div class="category" onclick="filterByCategory('Home')">🏠 Home</div>
+        <div class="category" onclick="filterByCategory('Beauty')">💄 Beauty</div>
+        <div class="category" onclick="filterByCategory('Sports')">⚽ Sports</div>
+        <div class="category" onclick="filterByCategory('Toys')">🎮 Toys</div>
+    </div>
+
+    <!-- Trending -->
+    <div class="section">
+        <div class="section-header">
+            <h2>📈 Trending Now</h2>
+            <a href="#" onclick="loadTrending()">View All</a>
+        </div>
+        <div id="trending" class="products-grid"></div>
+    </div>
+
+    <!-- Daily Check-in -->
+    <div class="gamification-card" style="background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333;" onclick="dailyCheckin()">
+        <div>
+            <h3>📅 Daily Check-in</h3>
+            <p>Day <span id="checkinDay">1</span> • Earn rewards</p>
+        </div>
+        <div class="wheel-icon">⭐</div>
+    </div>
+</div>
+
+<!-- ==================== SHOP PAGE ==================== -->
+<div id="shopPage" style="display: none;">
+    <div class="filters-bar">
+        <select id="categoryFilter" onchange="filterProducts()">
+            <option value="">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Home">Home</option>
+            <option value="Beauty">Beauty</option>
+            <option value="Sports">Sports</option>
+            <option value="Toys">Toys</option>
+        </select>
+        <select id="sortFilter" onchange="filterProducts()">
+            <option value="default">Sort by</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+        </select>
+        <input type="range" id="priceRange" min="0" max="500" onchange="filterProducts()">
+        <span>$<span id="priceValue">500</span></span>
+    </div>
+    <div class="section">
+        <h2>All Products <span id="productCount"></span></h2>
+        <div id="allProducts" class="products-grid"></div>
+        <div id="loadingIndicator" class="loading">Loading more products...</div>
+    </div>
+</div>
+
+<!-- ==================== SELLER DASHBOARD ==================== -->
+<div id="sellerPage" style="display: none;">
+    <div class="dashboard-container">
+        <div class="stats-grid">
+            <div class="stat-card"><h3>💰 Total Sales</h3><p id="sellerSales">$0</p></div>
+            <div class="stat-card"><h3>📦 My Products</h3><p id="sellerProductCount">0</p></div>
+            <div class="stat-card"><h3>⭐ Rating</h3><p id="sellerRating">0</p></div>
+            <div class="stat-card"><h3>🔄 Orders</h3><p id="sellerOrdersCount">0</p></div>
+        </div>
+        <div class="card">
+            <h2>➕ Add New Product</h2>
+            <form id="addProductForm">
+                <input type="text" id="productName" placeholder="Product Name" required>
+                <input type="number" id="productPrice" placeholder="Price" required>
+                <input type="number" id="productStock" placeholder="Stock" required>
+                <select id="productCategory">
+                    <option value="Electronics">Electronics</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="Home">Home</option>
+                    <option value="Beauty">Beauty</option>
+                </select>
+                <button type="submit">Add Product →</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>📦 My Products</h2>
+            <div id="sellerProductsList"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== CEO DASHBOARD ==================== -->
+<div id="ceoPage" style="display: none;">
+    <div class="dashboard-container">
+        <div class="stats-grid">
+            <div class="stat-card"><h3>💰 Total Revenue</h3><p id="totalRevenue">$0</p></div>
+            <div class="stat-card"><h3>📦 Total Products</h3><p id="totalProductsCount">0</p></div>
+            <div class="stat-card"><h3>👥 Sellers</h3><p id="totalSellers">0</p></div>
+            <div class="stat-card"><h3>👤 Users</h3><p id="totalUsers">0</p></div>
+        </div>
+        <div class="card">
+            <h2>🏆 Top Selling Products</h2>
+            <div id="topProducts"></div>
+        </div>
+        <div class="card">
+            <h2>⭐ Top Sellers</h2>
+            <div id="topSellersList"></div>
+        </div>
+        <div class="card">
+            <h2>⚙️ Platform Settings</h2>
+            <label>Commission: <input type="number" id="commissionRate" value="10"> %</label>
+            <button onclick="saveSettings()">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODALS ==================== -->
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeCart()">&times;</span>
+        <h2>🛒 Your Cart</h2>
+        <div id="cartItems"></div>
+        <div id="cartTotal"></div>
+        <button class="checkout-btn" onclick="checkoutWithWhatsApp()">💚 Pay with WhatsApp</button>
+    </div>
+</div>
+
+<div id="spinModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSpinModal()">&times;</span>
+        <h3>🎡 SPIN THE WHEEL</h3>
+        <div style="font-size: 80px; text-align: center; margin: 20px;">🎡</div>
+        <button class="whatsapp-btn" onclick="spinWheel()">SPIN NOW!</button>
+        <p id="spinResult" style="text-align: center; margin-top: 15px;"></p>
+    </div>
+</div>
+
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closePaymentModal()">&times;</span>
+        <h2>💚 WhatsApp Payment</h2>
+        <p>Click below to complete payment</p>
+        <button class="whatsapp-btn" id="whatsappPayBtn">📱 Send Order on WhatsApp</button>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="bottom-nav">
+    <div onclick="showPage('home')">🏠 Home</div>
+    <div onclick="showPage('shop')">📦 Shop</div>
+    <div onclick="openCart()">🛒 Cart</div>
+    <div onclick="showPage('seller')">📊 Seller</div>
+    <div onclick="showPage('ceo')">👑 CEO</div>
+</div>
+
+<script>
+    // ==================== DATA ====================
+    let allProducts = [];
+    let cart = JSON.parse(localStorage.getItem('ibl_cart')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('ibl_user')) || null;
+    let currentPage = 1;
+    let isLoading = false;
+    let sellerId = localStorage.getItem('sellerId') || 'seller_1';
+
+    // Generate unlimited products (500+)
+    function generateProducts(count = 500) {
+        const categories = ['Electronics', 'Fashion', 'Home', 'Beauty', 'Sports', 'Toys'];
+        const names = ['Headphones', 'Watch', 'Phone', 'Shoes', 'Shirt', 'Jacket', 'Laptop', 'Tablet', 'Speaker', 'Camera', 'Bag', 'Sunglasses', 'Perfume', 'Cream', 'Toy', 'Game', 'Book', 'Lamp', 'Chair', 'Desk'];
+        const emojis = ['📱', '💻', '⌚', '👟', '👕', '🎧', '🔊', '📷', '🎮', '🏀', '⚽', '💄', '👜', '⌛', '🎁'];
+        
+        const products = [];
+        for (let i = 1; i <= count; i++) {
+            const category = categories[Math.floor(Math.random() * categories.length)];
+            const price = Math.floor(Math.random() * 300) + 10;
+            products.push({
+                id: i,
+                name: `${names[Math.floor(Math.random() * names.length)]} ${i}`,
+                price: price,
+                oldPrice: price * 1.4,
+                rating: (Math.random() * 2 + 3).toFixed(1),
+                sales: Math.floor(Math.random() * 5000),
+                category: category,
+                emoji: emojis[Math.floor(Math.random() * emojis.length)],
+                sellerId: `seller_${Math.floor(Math.random() * 20) + 1}`,
+                stock: Math.floor(Math.random() * 500)
+            });
+        }
+        localStorage.setItem('ibl_products', JSON.stringify(products));
+        return products;
+    }
+
+    // Load products
+    function loadProducts() {
+        let stored = localStorage.getItem('ibl_products');
+        if (!stored) {
+            allProducts = generateProducts(500);
+        } else {
+            allProducts = JSON.parse(stored);
+        }
+        return allProducts;
+    }
+
+    // Render products grid
+    function renderProducts(containerId, products) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = products.map(p => `
+            <div class="product-card" onclick="viewProduct(${p.id})">
+                <div class="product-emoji">${p.emoji}</div>
+                <div class="product-name">${p.name.substring(0, 20)}</div>
+                <div>
+                    <span class="product-price">$${p.price}</span>
+                    <span class="old-price">$${p.oldPrice}</span>
+                </div>
+                <div style="font-size: 11px;">⭐ ${p.rating}</div>
+                <button class="add-btn" onclick="event.stopPropagation(); addToCart(${p.id})">Add to Cart</button>
+            </div>
+        `).join('');
+    }
+
+    // Add to cart
+    function addToCart(productId) {
+        const product = allProducts.find(p => p.id === productId);
+        if (product) {
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            localStorage.setItem('ibl_cart', JSON.stringify(cart));
+            updateCartCount();
+            showToast(`✓ ${product.name} added!`);
+        }
+    }
+
+    function updateCartCount() {
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').textContent = count;
+    }
+
+    function openCart() {
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartTotalDiv = document.getElementById('cartTotal');
+        
+        if (cart.length === 0) {
+            cartItemsDiv.innerHTML = '<p style="text-align: center;">Cart is empty 🛒</p>';
+            cartTotalDiv.innerHTML = '';
+        } else {
+            let total = 0;
+            cartItemsDiv.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `
+                    <div class="product-item">
+                        <span>${item.emoji} ${item.name.substring(0, 15)}</span>
+                        <span>
+                            <button onclick="updateQty(${item.id}, -1)">-</button>
+                            ${item.quantity}
+                            <button onclick="updateQty(${item.id}, 1)">+</button>
+                        </span>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `;
+            }).join('');
+            cartTotalDiv.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
+        }
+        document.getElementById('cartModal').style.display = 'flex';
+    }
+
+    function updateQty(id, delta) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            }
+            localStorage.setItem('ibl_cart', JSON.stringify(cart));
+            updateCartCount();
+            openCart();
+        }
+    }
+
+    function closeCart() {
+        document.getElementById('cartModal').style.display = 'none';
+    }
+
+    // WhatsApp Checkout
+    function checkoutWithWhatsApp() {
+        if (cart.length === 0) {
+            showToast('Cart is empty!');
+            return;
+        }
+        const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+        const name = prompt('Your name:', currentUser?.name || 'Guest');
+        const phone = prompt('Phone number:');
+        const address = prompt('Address:');
+        
+        if (!name || !phone || !address) return;
+        
+        let message = `🛍️ NEW ORDER FROM IBL SHOP%0A%0A`;
+        message += `👤 Customer: ${name}%0A`;
+        message += `📞 Phone: ${phone}%0A`;
+        message += `📍 Address: ${address}%0A%0A`;
+        message += `📦 ORDER:%0A`;
+        cart.forEach(i => {
+            message += `- ${i.name} x${i.quantity} = $${(i.price * i.quantity).toFixed(2)}%0A`;
+        });
+        message += `%0A💰 TOTAL: $${total.toFixed(2)}%0A`;
+        message += `💚 Payment: WhatsApp Transfer%0A`;
+        message += `📅 Date: ${new Date().toLocaleString()}`;
+        
+        const whatsappUrl = `https://wa.me/1234567890?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+        
+        showToast('Redirecting to WhatsApp...');
+        cart = [];
+        localStorage.setItem('ibl_cart', JSON.stringify(cart));
+        updateCartCount();
+        closeCart();
+    }
+
+    // Load home page data
+    function loadFlashDeals() {
+        const flash = allProducts.filter(p => p.sales > 2000).slice(0, 6);
+        renderProducts('flashProducts', flash);
+    }
+
+    function loadAIRecommendations() {
+        const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+        renderProducts('recommended', shuffled.slice(0, 8));
+    }
+
+    function loadTrending() {
+        const trending = [...allProducts].sort((a,b) => b.sales - a.sales).slice(0, 8);
+        renderProducts('trending', trending);
+    }
+
+    function filterByCategory(category) {
+        const filtered = allProducts.filter(p => p.category === category);
+        renderProducts('trending', filtered.slice(0, 8));
+        showToast(`${category} products`);
+    }
+
+    function searchProducts() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        if (query) {
+            const results = allProducts.filter(p => p.name.toLowerCase().includes(query)).slice(0, 20);
+            renderProducts('recommended', results);
+        } else {
+            loadAIRecommendations();
+        }
+    }
+
+    // Shop page with infinite scroll
+    let shopProducts = [];
+    let shopPage = 1;
+    
+    function loadShopProducts() {
+        const category = document.getElementById('categoryFilter')?.value || '';
+        const sort = document.getElementById('sortFilter')?.value || '';
+        const maxPrice = parseInt(document.getElementById('priceRange')?.value || 500);
+        
+        let filtered = [...allProducts];
+        if (category) filtered = filtered.filter(p => p.category === category);
+        if (maxPrice) filtered = filtered.filter(p => p.price <= maxPrice);
+        
+        if (sort === 'price_asc') filtered.sort((a,b) => a.price - b.price);
+        if (sort === 'price_desc') filtered.sort((a,b) => b.price - a.price);
+        if (sort === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+        
+        document.getElementById('productCount').textContent = `(${filtered.length} products)`;
+        renderProducts('allProducts', filtered.slice(0, 40));
+    }
+
+    function filterProducts() {
+        loadShopProducts();
+    }
+
+    // Gamification
+    function openSpinWheel() {
+        document.getElementById('spinModal').style.display = 'flex';
+    }
+
+    function closeSpinModal() {
+        document.getElementById('spinModal').style.display = 'none';
+    }
+
+    function spinWheel() {
+        const prizes = ["🎁 $5 Coupon", "🎟️ Free Gift", "🪙 100 Coins", "🔥 20% OFF", "⭐ 50 Coins", "💎 $10 Credit"];
+        const prize = prizes[Math.floor(Math.random() * prizes.length)];
+        document.getElementById('spinResult').innerHTML = `🎉 YOU WON: ${prize} 🎉`;
+        showToast(`Won: ${prize}`);
+        setTimeout(() => closeSpinModal(), 2000);
+    }
+
+    function dailyCheckin() {
+        const last = localStorage.getItem('lastCheckin');
+        const today = new Date().toDateString();
+        if (last === today) {
+            showToast('Already checked in today!');
+            return;
+        }
+        let day = parseInt(localStorage.getItem('checkinDay') || '1');
+        showToast(`🎉 Day ${day} check-in! Earned ${day * 10} coins!`);
+        localStorage.setItem('lastCheckin', today);
+        day = Math.min(day + 1, 7);
+        localStorage.setItem('checkinDay', day);
+        document.getElementById('checkinDay').textContent = day;
+    }
+
+    // Seller Dashboard
+    function loadSellerDashboard() {
+        const sellerProducts = allProducts.filter(p => p.sellerId === sellerId);
+        const totalSales = sellerProducts.reduce((sum, p) => sum + (p.price * p.sales), 0);
+        document.getElementById('sellerSales').textContent = `$${totalSales.toFixed(2)}`;
+        document.getElementById('sellerProductCount').textContent = sellerProducts.length;
+        document.getElementById('sellerRating').textContent = '4.5';
+        document.getElementById('sellerOrdersCount').textContent = Math.floor(Math.random() * 50);
+        
+        const container = document.getElementById('sellerProductsList');
+        container.innerHTML = sellerProducts.slice(0, 20).map(p => `
+            <div class="product-item">
+                <span>${p.emoji} ${p.name.substring(0, 15)}</span>
+                <span>$${p.price}</span>
+                <span>Stock: ${p.stock}</span>
+                <button onclick="deleteProduct(${p.id})">🗑️</button>
+            </div>
+        `).join('');
+    }
+
+    function deleteProduct(id) {
+        allProducts = allProducts.filter(p => p.id !== id);
+        localStorage.setItem('ibl_products', JSON.stringify(allProducts));
+        loadSellerDashboard();
+        showToast('Product deleted');
+    }
+
+    // CEO Dashboard
+    function loadCEODashboard() {
+        const totalRevenue = allProducts.reduce((sum, p) => sum + (p.price * p.sales), 0);
+        const sellers = [...new Set(allProducts.map(p => p.sellerId))];
+        
+        document.getElementById('totalRevenue').textContent = `$${totalRevenue.toFixed(2)}`;
+        document.getElementById('totalProductsCount').textContent = allProducts.length;
+        document.getElementById('totalSellers').textContent = sellers.length;
+        document.getElementById('totalUsers').textContent = '1,234';
+        
+        const topProducts = [...allProducts].sort((a,b) => b.sales - a.sales).slice(0, 10);
+        document.getElementById('topProducts').innerHTML = topProducts.map((p, i) => `
+            <div class="product-item">
+                <span>${i+1}. ${p.name.substring(0, 20)}</span>
+                <span>${p.sales} sold</span>
+                <span>$${(p.price * p.sales).toFixed(2)}</span>
+            </div>
+        `).join('');
+        
+        const sellerStats = sellers.map(sid => ({
+            id: sid,
+            revenue: allProducts.filter(p => p.sellerId === sid).reduce((sum, p) => sum + (p.price * p.sales), 0)
+        })).sort((a,b) => b.revenue - a.revenue);
+        
+        document.getElementById('topSellersList').innerHTML = sellerStats.slice(0, 5).map(s => `
+            <div class="product-item">
+                <span>🏪 ${s.id}</span>
+                <span>$${s.revenue.toFixed(2)}</span>
+            </div>
+        `).join('');
+    }
+
+    function saveSettings() {
+        const commission = document.getElementById('commissionRate').value;
+        localStorage.setItem('commission', commission);
+        showToast('Settings saved!');
+    }
+
+    // Profile
+    function openProfile() {
+        if (currentUser) {
+            alert(`👤 ${currentUser.name}\n📧 ${currentUser.email}`);
+        } else {
+            const name = prompt('Enter your name:', 'Guest');
+            if (name) {
+                currentUser = { name, email: `${name}@ibl.com` };
+                localStorage.setItem('ibl_user', JSON.stringify(currentUser));
+                showToast(`Welcome ${name}!`);
+            }
+        }
+    }
+
+    function viewProduct(id) {
+        const p = allProducts.find(p => p.id === id);
+        if (p) {
+            alert(`📦 ${p.name}\n💰 $${p.price}\n⭐ ${p.rating}\n📦 Stock: ${p.stock}\n🏪 Seller: ${p.sellerId}`);
+        }
+    }
+
+    // Page navigation
+    function showPage(page) {
+        document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
+        document.getElementById('shopPage').style.display = page === 'shop' ? 'block' : 'none';
+        document.getElementById('sellerPage').style.display = page === 'seller' ? 'block' : 'none';
+        document.getElementById('ceoPage').style.display = page === 'ceo' ? 'block' : 'none';
+        
+        if (page === 'shop') loadShopProducts();
+        if (page === 'seller') loadSellerDashboard();
+        if (page === 'ceo') loadCEODashboard();
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2000);
+    }
+
+    function closePaymentModal() {
+        document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    // Countdown timer
+    function startCountdown() {
+        let time = 24 * 60 * 60;
+        setInterval(() => {
+            if (time <= 0) time = 24 * 60 * 60;
+            const h = Math.floor(time / 3600);
+            const m = Math.floor((time % 3600) / 60);
+            const s = time % 60;
+            const cd = document.getElementById('countdown');
+            if (cd) cd.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            time--;
+        }, 1000);
+    }
+
+    // Add product form
+    document.getElementById('addProductForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newProduct = {
+            id: allProducts.length + 1,
+            name: document.getElementById('productName').value,
+            price: parseFloat(document.getElementById('productPrice').value),
+            stock: parseInt(document.getElementById('productStock').value),
+            category: document.getElementById('productCategory').value,
+            sellerId: sellerId,
+            emoji: '📦',
+            rating: 0,
+            sales: 0,
+            oldPrice: parseFloat(document.getElementById('productPrice').value) * 1.4
+        };
+        allProducts.push(newProduct);
+        localStorage.setItem('ibl_products', JSON.stringify(allProducts));
+        showToast('Product added!');
+        loadSellerDashboard();
+        this.reset();
+    });
+
+    // Price range display
+    document.getElementById('priceRange')?.addEventListener('input', (e) => {
+        document.getElementById('priceValue').textContent = e.target.value;
+    });
+
+    // Initialize
+    loadProducts();
+    updateCartCount();
+    startCountdown();
+    loadFlashDeals();
+    loadAIRecommendations();
+    loadTrending();
+    
+    // Load saved check-in day
+    const savedDay = localStorage.getItem('checkinDay');
+    if (savedDay) document.getElementById('checkinDay').textContent = savedDay;
+
+    // Expose functions to global
+    window.showPage = showPage;
+    window.openCart = openCart;
+    window.closeCart = closeCart;
+    window.addToCart = addToCart;
+    window.updateQty = updateQty;
+    window.checkoutWithWhatsApp = checkoutWithWhatsApp;
+    window.openSpinWheel = openSpinWheel;
+    window.closeSpinModal = closeSpinModal;
+    window.spinWheel = spinWheel;
+    window.dailyCheckin = dailyCheckin;
+    window.filterByCategory = filterByCategory;
+    window.searchProducts = searchProducts;
+    window.openProfile = openProfile;
+    window.viewProduct = viewProduct;
+    window.filterProducts = filterProducts;
+    window.deleteProduct = deleteProduct;
+    window.saveSettings = saveSettings;
+    window.closePaymentModal = closePaymentModal;
+    window.loadAIRecommendations = loadAIRecommendations;
+    window.loadTrending = loadTrending;
+</script>
+
+</body>
+  </html>
